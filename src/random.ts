@@ -482,8 +482,13 @@ export class Random {
         count: options,
       };
     }
+
     const { count = 1, upcase = false } = options;
     let { bannedChars = [] } = options;
+
+    if (typeof bannedChars === 'string') {
+      bannedChars = bannedChars.split('');
+    }
 
     let charsArray = [
       'a',
@@ -513,13 +518,8 @@ export class Random {
       'y',
       'z',
     ];
-    // TODO @Shinigami92 2022-01-11: A default empty array gets assigned above, we should check the length against 0 or not here
-    if (bannedChars) {
-      if (typeof bannedChars === 'string') {
-        bannedChars = bannedChars.split('');
-      }
-      charsArray = arrayRemove(charsArray, bannedChars);
-    }
+
+    charsArray = arrayRemove(charsArray, bannedChars);
 
     let wholeString = '';
     for (let i = 0; i < count; i++) {
@@ -548,6 +548,10 @@ export class Random {
     } = {}
   ): string {
     let { bannedChars = [] } = options;
+
+    if (typeof bannedChars === 'string') {
+      bannedChars = bannedChars.split('');
+    }
 
     let charsArray = [
       '0',
@@ -588,12 +592,7 @@ export class Random {
       'z',
     ];
 
-    if (bannedChars) {
-      if (typeof bannedChars === 'string') {
-        bannedChars = bannedChars.split('');
-      }
-      charsArray = arrayRemove(charsArray, bannedChars);
-    }
+    charsArray = arrayRemove(charsArray, bannedChars);
 
     if (charsArray.length === 0) {
       throw new FakerError(
