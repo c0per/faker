@@ -96,7 +96,7 @@ export class Fake {
       currentDefinitions = currentDefinitions?.[part];
     }
 
-    let fn: (args?: unknown) => string;
+    let fn: (args?: unknown) => unknown;
     if (typeof currentModuleOrMethod === 'function') {
       fn = currentModuleOrMethod as (args?: unknown) => string;
     } else if (Array.isArray(currentDefinitions)) {
