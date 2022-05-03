@@ -91,16 +91,19 @@ export class Fake {
     let currentModuleOrMethod: unknown = this.faker;
     let currentDefinitions: unknown = this.faker.definitions;
 
+    // Search for the requested method or definition
     for (const part of parts) {
       currentModuleOrMethod = currentModuleOrMethod?.[part];
       currentDefinitions = currentDefinitions?.[part];
     }
 
+    // Make method executable
     let fn: (args?: unknown) => unknown;
     if (typeof currentModuleOrMethod === 'function') {
-      fn = currentModuleOrMethod as (args?: unknown) => string;
+      fn = currentModuleOrMethod as (args?: unknown) => unknown;
     } else if (Array.isArray(currentDefinitions)) {
-      fn = () => this.faker.random.arrayElement(currentDefinitions as []);
+      fn = () =>
+        this.faker.helpers.arrayElement(currentDefinitions as unknown[]);
     } else {
       throw new FakerError(`Invalid module method or definition: ${method}
 faker.${method} = ${typeof currentModuleOrMethod} (must be function)
